@@ -21,6 +21,7 @@ public struct SKPhotoBrowserOptions {
     public static var disableVerticalSwipe: Bool = false
     
     public static var displayCloseButton: Bool = true
+    public static var displayNavigationBar: Bool = true
     public static var displayDeleteButton: Bool = false
     
     public static var displayHorizontalScrollIndicator: Bool = true
@@ -33,6 +34,8 @@ public struct SKPhotoBrowserOptions {
     public static var backgroundColor = UIColor.blackColor()
     public static var textAndIconColor = UIColor.whiteColor()
     public static var toolbarTextShadowColor = UIColor.darkTextColor()
+
+    public static var navigationBarCounterSepatator: String = "из"
     
     public static var toolbarFont = UIFont(name: "Helvetica", size: 16.0)
     public static var captionFont = UIFont.systemFontOfSize(17.0)

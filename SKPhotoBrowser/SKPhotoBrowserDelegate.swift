@@ -71,5 +71,6 @@ import Foundation
      - Returns: the view to animate to
      */
     optional func viewForPhoto(browser: SKPhotoBrowser, index: Int) -> UIView?
+
 }
 
