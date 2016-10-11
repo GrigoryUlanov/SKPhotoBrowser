@@ -24,7 +24,7 @@ class SKNavigationBar: UINavigationBar {
         translucent = false
         tintColor = UIColor.whiteColor()
         barTintColor = UIColor.blackColor().colorWithAlphaComponent(0.2)
-        titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor().colorWithAlphaComponent(0.5)]
+        titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()]
 
         let navigationItem = UINavigationItem()
         pushNavigationItem(navigationItem, animated: false)
