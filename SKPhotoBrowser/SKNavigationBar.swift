@@ -23,7 +23,7 @@ class SKNavigationBar: UINavigationBar {
 
         translucent = false
         tintColor = UIColor.whiteColor()
-        barTintColor = UIColor.blackColor().colorWithAlphaComponent(0.2)
+        barTintColor = UIColor.blackColor()
         titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()]
 
         let navigationItem = UINavigationItem()
