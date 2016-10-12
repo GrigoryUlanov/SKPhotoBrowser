@@ -19,7 +19,10 @@ public struct SKPhotoBrowserOptions {
     public static var disableVerticalSwipe: Bool = false
     
     public static var displayCloseButton = true
+    public static var displayNavigationBar = true
     public static var displayDeleteButton = false
+
+    public static var navigationBarCounterSepatator = "из"
     
     public static var bounceAnimation = false
     public static var enableZoomBlackArea = true

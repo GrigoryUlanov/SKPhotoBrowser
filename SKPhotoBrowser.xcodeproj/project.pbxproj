@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A6BA1F31DAE0E2700778221 /* SKNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6BA1F21DAE0E2700778221 /* SKNavigationBar.swift */; };
 		210E53ED1C986D3A008DD5E3 /* UIView+Radius.swift in Sources */ = {isa = PBXBuildFile; fileRef = 210E53EC1C986D3A008DD5E3 /* UIView+Radius.swift */; };
 		210E53EF1C986D57008DD5E3 /* UIImage+Rotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 210E53EE1C986D57008DD5E3 /* UIImage+Rotation.swift */; };
 		26C97AD51D0EB6870039F6CB /* SKCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26C97AD41D0EB6870039F6CB /* SKCache.swift */; };
@@ -44,6 +45,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0A6BA1F21DAE0E2700778221 /* SKNavigationBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKNavigationBar.swift; sourceTree = "<group>"; };
 		210E53EC1C986D3A008DD5E3 /* UIView+Radius.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIView+Radius.swift"; path = "extensions/UIView+Radius.swift"; sourceTree = "<group>"; };
 		210E53EE1C986D57008DD5E3 /* UIImage+Rotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIImage+Rotation.swift"; path = "extensions/UIImage+Rotation.swift"; sourceTree = "<group>"; };
 		26C97AD41D0EB6870039F6CB /* SKCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKCache.swift; sourceTree = "<group>"; };
@@ -135,6 +137,7 @@
 				8909B53F1BC791510060A053 /* SKPhoto.swift */,
 				8909B5411BC791510060A053 /* SKPhotoBrowser.swift */,
 				89C24A811D657AD1005F09A9 /* SKPhotoBrowserOptions.swift */,
+				0A6BA1F21DAE0E2700778221 /* SKNavigationBar.swift */,
 				890A6F1F1D5D9E53003B01F0 /* SKToolbar.swift */,
 				8909B5331BC791280060A053 /* SKPhotoBrowser.h */,
 				8917B1AF1D5A13DE000CE1C4 /* SKPhotoBrowserDelegate.swift */,
@@ -300,6 +303,7 @@
 				8917B1B41D5A14B0000CE1C4 /* SKButtons.swift in Sources */,
 				89C24A821D657AD1005F09A9 /* SKPhotoBrowserOptions.swift in Sources */,
 				26C97AD51D0EB6870039F6CB /* SKCache.swift in Sources */,
+				0A6BA1F31DAE0E2700778221 /* SKNavigationBar.swift in Sources */,
 				210E53EF1C986D57008DD5E3 /* UIImage+Rotation.swift in Sources */,
 				8909B5431BC791510060A053 /* SKCaptionView.swift in Sources */,
 				8909B5491BC791510060A053 /* SKPhotoBrowser.swift in Sources */,

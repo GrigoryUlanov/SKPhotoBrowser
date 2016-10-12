@@ -18,6 +18,7 @@ open class SKPhotoBrowser: UIViewController {
     fileprivate var closeButton: SKCloseButton!
     fileprivate var deleteButton: SKDeleteButton!
     fileprivate var toolbar: SKToolbar!
+    fileprivate var navigationBar: SKNavigationBar!
     
     // actions
     fileprivate var activityViewController: UIActivityViewController!
@@ -42,6 +43,10 @@ open class SKPhotoBrowser: UIViewController {
     
     // timer
     fileprivate var controlVisibilityTimer: Timer!
+
+    // blocks
+    public var willDismissPage: (() -> Void)?
+    public var didPresentPage: (() -> Void)?
     
     // delegate
     fileprivate let animator = SKAnimator()
@@ -108,9 +113,11 @@ open class SKPhotoBrowser: UIViewController {
         configureAppearance()
         configureCloseButton()
         configureDeleteButton()
+        configureNavigationBar()
         configureToolbar()
         
         animator.willPresent(self)
+        didPresentPage?()
     }
 
     
@@ -131,6 +138,7 @@ open class SKPhotoBrowser: UIViewController {
         
         closeButton.updateFrame()
         deleteButton.updateFrame()
+        navigationBar.updateFrame(view.bounds.size)
         pagingScrollView.updateFrame(view.bounds, currentPageIndex: currentPageIndex)
         
         toolbar.frame = frameForToolbarAtOrientation()
@@ -180,6 +188,7 @@ open class SKPhotoBrowser: UIViewController {
         isPerformingLayout = true
         
         toolbar.updateToolbar(currentPageIndex)
+        navigationBar.updateNavigationBar(currentPageIndex)
         
         // reset local cache
         pagingScrollView.reload()
@@ -215,6 +224,7 @@ open class SKPhotoBrowser: UIViewController {
     open func determineAndClose() {
         delegate?.willDismissAtPageIndex?(currentPageIndex)
         animator.willDismiss(self)
+        willDismissPage?()
     }
 }
 
@@ -271,6 +281,7 @@ public extension SKPhotoBrowser {
             }
             isEndAnimationByToolBar = false
             toolbar.updateToolbar(currentPageIndex)
+            navigationBar.updateNavigationBar(currentPageIndex)
             
             let pageFrame = frameForPageAtIndex(index)
             pagingScrollView.animate(pageFrame)
@@ -441,7 +452,7 @@ internal extension SKPhotoBrowser {
             ? zoomingScrollView.center.y - viewHalfHeight
             : -(zoomingScrollView.center.y - viewHalfHeight)) / viewHalfHeight
         
-        view.backgroundColor = UIColor.black.withAlphaComponent(max(0.7, offset))
+        view.alpha = CGFloat.maximum(0.7, offset)
         
         // gesture end
         if sender.state == .ended {
@@ -466,6 +477,7 @@ internal extension SKPhotoBrowser {
                 UIView.setAnimationDuration(animationDuration)
                 UIView.setAnimationCurve(UIViewAnimationCurve.easeIn)
                 view.backgroundColor = UIColor.black
+                view.alpha = 1
                 zoomingScrollView.center = CGPoint(x: finalX, y: finalY)
                 UIView.commitAnimations()
             }
@@ -555,6 +567,13 @@ private extension SKPhotoBrowser {
         deleteButton.isHidden = !SKPhotoBrowserOptions.displayDeleteButton
         view.addSubview(deleteButton)
     }
+
+    func configureNavigationBar() {
+        navigationBar = SKNavigationBar(browser: self)
+        navigationBar.updateFrame(view.bounds.size)
+        navigationBar.isHidden = !SKPhotoBrowserOptions.displayNavigationBar
+        view.addSubview(navigationBar)
+    }
     
     func configureToolbar() {
         toolbar = SKToolbar(frame: frameForToolbarAtOrientation(), browser: self)
@@ -580,6 +599,10 @@ private extension SKPhotoBrowser {
                     self.deleteButton.alpha = alpha
                     self.deleteButton.frame = hidden ? self.deleteButton.hideFrame : self.deleteButton.showFrame
                 }
+                if SKPhotoBrowserOptions.displayNavigationBar {
+                    self.navigationBar.alpha = alpha
+                    self.navigationBar.frame = hidden ? self.navigationBar.hideFrame : self.navigationBar.showFrame
+                }
                 captionViews.forEach { $0.alpha = alpha }
             },
             completion: nil)
@@ -603,6 +626,7 @@ private extension SKPhotoBrowser {
                 gotoPreviousPage()
             }
             toolbar.updateToolbar(currentPageIndex)
+            navigationBar.updateNavigationBar(currentPageIndex)
             
         } else if photos.count == 1 {
             dismissPhotoBrowser(animated: false)
@@ -632,6 +656,7 @@ extension SKPhotoBrowser: UIScrollViewDelegate {
         if currentPageIndex != previousCurrentPage {
             delegate?.didShowPhotoAtIndex?(currentPageIndex)
             toolbar.updateToolbar(currentPageIndex)
+            navigationBar.updateNavigationBar(currentPageIndex)
         }
     }
     
