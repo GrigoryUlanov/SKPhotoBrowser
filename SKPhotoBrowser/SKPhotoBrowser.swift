@@ -451,7 +451,7 @@ internal extension SKPhotoBrowser {
             ? zoomingScrollView.center.y - viewHalfHeight
             : -(zoomingScrollView.center.y - viewHalfHeight)) / viewHalfHeight
         
-        view.alpha = CGFloat.maximum(0, offset)
+        view.alpha = CGFloat.maximum(0.6, offset)
 
         if sender.state == .began {
             UIApplication.shared.setStatusBarHidden(false, with: .none)
