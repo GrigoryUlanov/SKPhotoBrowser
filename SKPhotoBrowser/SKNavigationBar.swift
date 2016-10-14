@@ -8,43 +8,51 @@
 
 import UIKit
 
-class SKNavigationBar: UINavigationBar {
+class SKNavigationBar: UIView {
 
     var showFrame: CGRect!
     var hideFrame: CGRect!
 
-    private static let toolBarHeight: CGFloat = 64.0
+    private static let toolBarHeight: CGFloat = 44.0
 
     fileprivate weak var browser: SKPhotoBrowser?
+
+    private var countLabel: UILabel?
 
     convenience init(browser: SKPhotoBrowser) {
         self.init(frame: CGRect.zero)
 
         self.browser = browser
 
-        isTranslucent = false
-        tintColor = UIColor.white
-        barTintColor = UIColor.black
-        titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
+        backgroundColor = UIColor.black.withAlphaComponent(0.65)
 
-        let navigationItem = UINavigationItem()
-        pushItem(navigationItem, animated: false)
+        countLabel = UILabel()
+        countLabel?.font = UIFont.boldSystemFont(ofSize: 18)
+        countLabel?.textColor = UIColor.white
+        countLabel?.textAlignment = .center
+        countLabel?.frame = bounds
+        if let countLabel = countLabel {
+            addSubview(countLabel)
+        }
     }
 
     func updateNavigationBar(_ currentPageIndex: Int) {
         guard let browser = browser else { return }
 
         if browser.numberOfPhotos > 1 {
-            self.topItem?.title = "\(currentPageIndex + 1) \(SKPhotoBrowserOptions.navigationBarCounterSepatator) \(browser.numberOfPhotos)"
+            self.countLabel?.text = "\(currentPageIndex + 1) \(SKPhotoBrowserOptions.navigationBarCounterSepatator) \(browser.numberOfPhotos)"
         } else {
-            self.topItem?.title = nil
+            self.countLabel?.text = nil
         }
+    }
+
+    override func layoutSubviews() {
+        countLabel?.frame = bounds
     }
 
     func setNewFrame(rect: CGRect) {
         self.frame = rect
         showFrame = rect
-
         hideFrame = CGRect(x: rect.origin.x, y: rect.origin.y - 20, width: rect.size.width, height: rect.size.height)
     }
 

@@ -11,7 +11,7 @@ import UIKit
 
 @objc public protocol SKPhotoBrowserAnimatorDelegate {
     func willPresent(_ browser: SKPhotoBrowser)
-    func willDismiss(_ browser: SKPhotoBrowser)
+    func willDismiss(_ browser: SKPhotoBrowser, sender: UIView?)
 }
 
 class SKAnimator: NSObject, SKPhotoBrowserAnimatorDelegate {
@@ -70,21 +70,19 @@ class SKAnimator: NSObject, SKPhotoBrowserAnimatorDelegate {
         presentAnimation(browser)
     }
     
-    func willDismiss(_ browser: SKPhotoBrowser) {
-        guard let sender = browser.delegate?.viewForPhoto?(browser, index: browser.currentPageIndex),
-            let image = browser.photoAtIndex(browser.currentPageIndex).underlyingImage,
+    func willDismiss(_ browser: SKPhotoBrowser, sender: UIView?) {
+        guard let sender = sender, let image = browser.photoAtIndex(browser.currentPageIndex).underlyingImage,
             let scrollView = browser.pageDisplayedAtIndex(browser.currentPageIndex) else {
-                
-            senderViewForAnimation?.isHidden = false
-            browser.dismissPhotoBrowser(animated: false)
+
+            browser.dismissPhotoBrowser(animated: true)
             return
         }
         
         senderViewForAnimation = sender
         browser.view.isHidden = true
-        browser.backgroundView.isHidden = false
-        browser.backgroundView.alpha = 1
-        
+//        browser.backgroundView.isHidden = false
+//        browser.backgroundView.alpha = 1
+
         senderViewOriginalFrame = calcOriginFrame(sender)
         
         let photo = browser.photoAtIndex(browser.currentPageIndex)

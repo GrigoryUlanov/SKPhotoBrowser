@@ -152,6 +152,12 @@ open class SKPhotoBrowser: UIViewController {
     override open func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         isViewActive = true
+
+        UIApplication.shared.setStatusBarHidden(true, with: .fade)
+    }
+
+    open override var prefersStatusBarHidden: Bool {
+        return true
     }
     
     // MARK: - Notification
@@ -180,6 +186,7 @@ open class SKPhotoBrowser: UIViewController {
     
     // MARK: - initialize / setup
     open func reloadData() {
+        backgroundView.backgroundColor = view.backgroundColor
         performLayout()
         view.setNeedsLayout()
     }
@@ -221,9 +228,9 @@ open class SKPhotoBrowser: UIViewController {
         }
     }
 
-    open func determineAndClose() {
+    open func determineAndClose(sender: UIView?) {
         delegate?.willDismissAtPageIndex?(currentPageIndex)
-        animator.willDismiss(self)
+        animator.willDismiss(self, sender: sender)
         willDismissPage?()
     }
 }
@@ -452,16 +459,27 @@ internal extension SKPhotoBrowser {
             ? zoomingScrollView.center.y - viewHalfHeight
             : -(zoomingScrollView.center.y - viewHalfHeight)) / viewHalfHeight
         
-        view.alpha = CGFloat.maximum(0.7, offset)
+        view.alpha = CGFloat.maximum(0, offset)
+
+        if sender.state == .began {
+            UIApplication.shared.setStatusBarHidden(false, with: .none)
+        }
         
         // gesture end
-        if sender.state == .ended {
+        if sender.state == .ended || sender.state == .cancelled || sender.state == .failed {
             
             if zoomingScrollView.center.y > viewHalfHeight + minOffset
                 || zoomingScrollView.center.y < viewHalfHeight - minOffset {
-                
-                backgroundView.backgroundColor = view.backgroundColor
-                determineAndClose()
+
+                if let sender = self.delegate?.viewForPhoto?(self, index: self.currentPageIndex) {
+                    determineAndClose(sender: sender)
+                } else {
+                    UIView.animate(withDuration: 0.3, animations: {
+                        self.view.alpha = 0
+                        }, completion: { _ in
+                            self.determineAndClose(sender: nil)
+                    })
+                }
                 
             } else {
                 // Continue Showing View
@@ -480,6 +498,8 @@ internal extension SKPhotoBrowser {
                 view.alpha = 1
                 zoomingScrollView.center = CGPoint(x: finalX, y: finalY)
                 UIView.commitAnimations()
+
+                UIApplication.shared.setStatusBarHidden(true, with: .fade)
             }
         }
     }
@@ -491,7 +511,7 @@ internal extension SKPhotoBrowser {
     }
     
     func closeButtonPressed(_ sender: UIButton) {
-        determineAndClose()
+        determineAndClose(sender: nil)
     }
     
     func actionButtonPressed(ignoreAndShare: Bool) {
