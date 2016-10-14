@@ -402,20 +402,12 @@ internal extension SKPhotoBrowser {
 
 internal extension SKPhotoBrowser {
     func frameForToolbarAtOrientation() -> CGRect {
-        let currentOrientation = UIApplication.shared.statusBarOrientation
-        var height: CGFloat = navigationController?.navigationBar.frame.size.height ?? 44
-        if UIInterfaceOrientationIsLandscape(currentOrientation) {
-            height = 32
-        }
+        let height: CGFloat = 44
         return CGRect(x: 0, y: view.bounds.size.height - height, width: view.bounds.size.width, height: height)
     }
     
     func frameForToolbarHideAtOrientation() -> CGRect {
-        let currentOrientation = UIApplication.shared.statusBarOrientation
-        var height: CGFloat = navigationController?.navigationBar.frame.size.height ?? 44
-        if UIInterfaceOrientationIsLandscape(currentOrientation) {
-            height = 32
-        }
+        let height: CGFloat = 44
         return CGRect(x: 0, y: view.bounds.size.height + height, width: view.bounds.size.width, height: height)
     }
     
