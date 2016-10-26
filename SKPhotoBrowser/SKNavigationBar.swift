@@ -13,7 +13,7 @@ class SKNavigationBar: UIView {
     var showFrame: CGRect!
     var hideFrame: CGRect!
 
-    private static let toolBarHeight: CGFloat = 44.0
+    private static let toolBarHeight: CGFloat = 64.0
 
     fileprivate weak var browser: SKPhotoBrowser?
 
@@ -47,7 +47,7 @@ class SKNavigationBar: UIView {
     }
 
     override func layoutSubviews() {
-        countLabel?.frame = bounds
+        countLabel?.frame = CGRect(x: 0, y: 20, width: bounds.width, height: bounds.height)
     }
 
     func setNewFrame(rect: CGRect) {

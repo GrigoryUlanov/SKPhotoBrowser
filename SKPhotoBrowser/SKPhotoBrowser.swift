@@ -157,14 +157,14 @@ open class SKPhotoBrowser: UIViewController {
         UIApplication.shared.setStatusBarHidden(true, with: .fade)
     }
 
-    open override var preferredStatusBarUpdateAnimation: UIStatusBarAnimation {
-        return .fade
-    }
+//    open override var preferredStatusBarUpdateAnimation: UIStatusBarAnimation {
+//        return .fade
+//    }
+//
+//    open override var prefersStatusBarHidden: Bool {
+//        return true
+//    }
 
-    open override var prefersStatusBarHidden: Bool {
-        return true
-    }
-    
     // MARK: - Notification
     open func handleSKPhotoLoadingDidEndNotification(_ notification: Notification) {
         guard let photo = notification.object as? SKPhotoProtocol else {
