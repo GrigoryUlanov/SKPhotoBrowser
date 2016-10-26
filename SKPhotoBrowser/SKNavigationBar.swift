@@ -47,7 +47,11 @@ class SKNavigationBar: UIView {
     }
 
     override func layoutSubviews() {
-        countLabel?.frame = CGRect(x: 0, y: 20, width: bounds.width, height: bounds.height)
+        if UIDevice.current.orientation == .portrait {
+            countLabel?.frame = CGRect(x: 0, y: 20, width: bounds.width, height: bounds.height)
+        } else {
+            countLabel?.frame = bounds
+        }
     }
 
     func setNewFrame(rect: CGRect) {
