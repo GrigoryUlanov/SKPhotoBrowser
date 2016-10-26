@@ -153,7 +153,12 @@ open class SKPhotoBrowser: UIViewController {
         super.viewDidAppear(true)
         isViewActive = true
 
+        setNeedsStatusBarAppearanceUpdate()
         UIApplication.shared.setStatusBarHidden(true, with: .fade)
+    }
+
+    open override var preferredStatusBarUpdateAnimation: UIStatusBarAnimation {
+        return .fade
     }
 
     open override var prefersStatusBarHidden: Bool {
