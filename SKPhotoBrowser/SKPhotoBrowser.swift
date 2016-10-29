@@ -31,6 +31,13 @@ open class SKPhotoBrowser: UIViewController {
     
     var initialPageIndex: Int = 0
     var currentPageIndex: Int = 0
+
+    // status bar
+    fileprivate var isStatusBarHidden = false {
+        didSet {
+            setNeedsStatusBarAppearanceUpdate()
+        }
+    }
     
     // for status check property
     fileprivate var isEndAnimationByToolBar: Bool = true
@@ -135,6 +142,8 @@ open class SKPhotoBrowser: UIViewController {
     open override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
+        isStatusBarHidden = UIDevice.current.orientation != .portrait
+
         isPerformingLayout = true
 
         closeButton.updateFrame()
@@ -154,7 +163,7 @@ open class SKPhotoBrowser: UIViewController {
         super.viewDidAppear(true)
         isViewActive = true
 
-        setNeedsStatusBarAppearanceUpdate()
+        isStatusBarHidden = false
     }
 
     open override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -445,7 +454,7 @@ internal extension SKPhotoBrowser {
             firstY = zoomingScrollView.center.y
             
             hideControls()
-            setNeedsStatusBarAppearanceUpdate()
+            isStatusBarHidden = true
         }
         
         translatedPoint = CGPoint(x: firstX, y: firstY + translatedPoint.y)
@@ -457,10 +466,6 @@ internal extension SKPhotoBrowser {
             : -(zoomingScrollView.center.y - viewHalfHeight)) / viewHalfHeight
         
         view.alpha = CGFloat.maximum(0.6, offset)
-
-        if sender.state == .began {
-            setNeedsStatusBarAppearanceUpdate()
-        }
         
         // gesture end
         if sender.state == .ended || sender.state == .cancelled || sender.state == .failed {
@@ -480,7 +485,7 @@ internal extension SKPhotoBrowser {
                 
             } else {
                 // Continue Showing View
-                setNeedsStatusBarAppearanceUpdate()
+                isStatusBarHidden = false
                 
                 let velocityY: CGFloat = CGFloat(0.35) * sender.velocity(in: self.view).y
                 let finalX: CGFloat = firstX
@@ -628,7 +633,8 @@ private extension SKPhotoBrowser {
         if !permanent {
             hideControlsAfterDelay()
         }
-        setNeedsStatusBarAppearanceUpdate()
+
+        isStatusBarHidden = hidden
     }
     
     func deleteImage() {
