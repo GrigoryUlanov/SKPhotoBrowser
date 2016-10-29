@@ -85,7 +85,7 @@ class SKNavigationBar: UIView {
     func updateFrame(_ parentSize: CGSize) {
         var newRect: CGRect?
 
-        if UIDevice.current.orientation == .portrait {
+        if !isStatusBarHidden {
             newRect = CGRect(x: 0,
                              y: 0,
                              width: parentSize.width,
