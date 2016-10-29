@@ -593,6 +593,9 @@ private extension SKPhotoBrowser {
         navigationBar = SKNavigationBar(browser: self)
         navigationBar.updateFrame(view.bounds.size)
         navigationBar.isHidden = !SKPhotoBrowserOptions.displayNavigationBar
+        navigationBar.onDoneTap = { [weak self] in
+            self?.determineAndClose(sender: nil)
+        }
         view.addSubview(navigationBar)
     }
     

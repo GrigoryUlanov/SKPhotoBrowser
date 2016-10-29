@@ -18,6 +18,9 @@ class SKNavigationBar: UIView {
     fileprivate weak var browser: SKPhotoBrowser?
 
     private var countLabel: UILabel?
+    private var doneButton: UIButton?
+
+    var onDoneTap: (() -> Void)?
 
     convenience init(browser: SKPhotoBrowser) {
         self.init(frame: CGRect.zero)
@@ -30,10 +33,21 @@ class SKNavigationBar: UIView {
         countLabel?.font = UIFont.boldSystemFont(ofSize: 18)
         countLabel?.textColor = UIColor.white
         countLabel?.textAlignment = .center
-        countLabel?.frame = bounds
         if let countLabel = countLabel {
             addSubview(countLabel)
         }
+
+        doneButton = UIButton()
+        doneButton?.setTitle(SKPhotoBrowserOptions.navigationBarDoneTitle, for: .normal)
+        doneButton?.setTitleColor(UIColor.white, for: .normal)
+        doneButton?.addTarget(self, action: #selector(doneButtonAction), for: .touchUpInside)
+        if let doneButton = doneButton {
+            addSubview(doneButton)
+        }
+    }
+
+    @objc private func doneButtonAction() {
+        onDoneTap?()
     }
 
     func updateNavigationBar(_ currentPageIndex: Int) {
@@ -49,15 +63,18 @@ class SKNavigationBar: UIView {
     override func layoutSubviews() {
         if UIDevice.current.orientation == .portrait {
             countLabel?.frame = CGRect(x: 0, y: 20, width: bounds.width, height: bounds.height)
+            doneButton?.frame = CGRect(x: 20, y: 20, width: 80, height: bounds.height)
         } else {
             countLabel?.frame = bounds
+            doneButton?.frame = CGRect(x: 20, y: 0, width: 80, height: bounds.height)
         }
     }
 
     func setNewFrame(rect: CGRect) {
-        self.frame = rect
+        frame = rect
         showFrame = rect
         hideFrame = CGRect(x: rect.origin.x, y: rect.origin.y - 20, width: rect.size.width, height: rect.size.height)
+        layoutSubviews()
     }
 
     func updateFrame(_ parentSize: CGSize) {
