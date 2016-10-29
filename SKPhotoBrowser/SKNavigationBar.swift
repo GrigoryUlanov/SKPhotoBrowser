@@ -66,7 +66,7 @@ class SKNavigationBar: UIView {
 
     override func layoutSubviews() {
         if UIDevice.current.orientation == .portrait {
-            countLabel?.frame = CGRect(x: 0, y: statusBarHeight, width: bounds.width, height: bounds.height)
+            countLabel?.frame = CGRect(x: 0, y: statusBarHeight, width: bounds.width, height: bounds.height - statusBarHeight)
             doneButton?.frame = CGRect(x: 0, y: statusBarHeight, width: 85, height: bounds.height - statusBarHeight)
         } else {
             countLabel?.frame = bounds
