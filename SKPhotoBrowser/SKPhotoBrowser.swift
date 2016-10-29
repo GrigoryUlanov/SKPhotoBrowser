@@ -45,7 +45,7 @@ open class SKPhotoBrowser: UIViewController {
     fileprivate var controlVisibilityTimer: Timer!
 
     // blocks
-    public var willDismissPage: (() -> Void)?
+    public var willDismissPage: ((_ animated: Bool) -> Void)?
     public var didPresentPage: (() -> Void)?
     
     // delegate
@@ -224,10 +224,6 @@ open class SKPhotoBrowser: UIViewController {
     
     open func dismissPhotoBrowser(animated: Bool, completion: ((Void) -> Void)? = nil) {
         prepareForClosePhotoBrowser()
-
-        if animated {
-            modalTransitionStyle = .crossDissolve
-        }
         
         dismiss(animated: animated) {
             completion?()
@@ -238,7 +234,7 @@ open class SKPhotoBrowser: UIViewController {
     open func determineAndClose(sender: UIView?) {
         delegate?.willDismissAtPageIndex?(currentPageIndex)
         animator.willDismiss(self, sender: sender)
-        willDismissPage?()
+        willDismissPage?(sender != nil)
     }
 }
 
