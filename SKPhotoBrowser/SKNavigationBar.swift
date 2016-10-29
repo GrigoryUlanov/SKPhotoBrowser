@@ -21,6 +21,7 @@ class SKNavigationBar: UIView {
     private var doneButton: UIButton?
 
     var onDoneTap: (() -> Void)?
+    var isStatusBarHidden: Bool = false
 
     private var statusBarHeight: CGFloat {
         return UIApplication.shared.statusBarFrame.height
@@ -65,7 +66,7 @@ class SKNavigationBar: UIView {
     }
 
     override func layoutSubviews() {
-        if UIDevice.current.orientation == .portrait {
+        if !isStatusBarHidden {
             countLabel?.frame = CGRect(x: 0, y: statusBarHeight, width: bounds.width, height: bounds.height - statusBarHeight)
             doneButton?.frame = CGRect(x: 0, y: statusBarHeight, width: 85, height: bounds.height - statusBarHeight)
         } else {

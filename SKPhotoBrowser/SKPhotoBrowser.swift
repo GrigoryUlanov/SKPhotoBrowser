@@ -31,6 +31,14 @@ open class SKPhotoBrowser: UIViewController {
     
     var initialPageIndex: Int = 0
     var currentPageIndex: Int = 0
+
+    // status bar 
+    private var isStatusBarHidden: Bool = false {
+        didSet {
+            navigationBar.isStatusBarHidden = isStatusBarHidden
+            setNeedsStatusBarAppearanceUpdate()
+        }
+    }
     
     // for status check property
     fileprivate var isEndAnimationByToolBar: Bool = true
@@ -118,6 +126,8 @@ open class SKPhotoBrowser: UIViewController {
         
         animator.willPresent(self)
         didPresentPage?()
+
+        NotificationCenter.default.addObserver(self, selector: #selector(didChangeOrientation), name: .UIDeviceOrientationDidChange, object: nil)
     }
 
     
@@ -130,6 +140,10 @@ open class SKPhotoBrowser: UIViewController {
             photo.index = i
             i = i + 1
         }
+    }
+
+    func didChangeOrientation() {
+        isStatusBarHidden = UIDevice.current.orientation != .portrait
     }
 
     open override func viewDidLayoutSubviews() {
@@ -164,7 +178,7 @@ open class SKPhotoBrowser: UIViewController {
     }
 
     open override var prefersStatusBarHidden: Bool {
-        return UIDevice.current.orientation != .portrait
+        return isStatusBarHidden
     }
 
     // MARK: - Notification
@@ -586,7 +600,8 @@ private extension SKPhotoBrowser {
         navigationBar.updateFrame(view.bounds.size)
         navigationBar.isHidden = !SKPhotoBrowserOptions.displayNavigationBar
         navigationBar.onDoneTap = { [weak self] in
-            self?.determineAndClose(sender: nil)
+            self?.willDismissPage?(false)
+            self?.dismissPhotoBrowser(animated: false)
         }
         view.addSubview(navigationBar)
     }
