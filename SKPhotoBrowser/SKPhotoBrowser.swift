@@ -31,13 +31,6 @@ open class SKPhotoBrowser: UIViewController {
     
     var initialPageIndex: Int = 0
     var currentPageIndex: Int = 0
-
-    // status bar
-    fileprivate var isStatusBarHidden = false {
-        didSet {
-            setNeedsStatusBarAppearanceUpdate()
-        }
-    }
     
     // for status check property
     fileprivate var isEndAnimationByToolBar: Bool = true
@@ -142,7 +135,7 @@ open class SKPhotoBrowser: UIViewController {
     open override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
-        isStatusBarHidden = UIDevice.current.orientation != .portrait
+        setNeedsStatusBarAppearanceUpdate()
 
         isPerformingLayout = true
 
@@ -163,7 +156,7 @@ open class SKPhotoBrowser: UIViewController {
         super.viewDidAppear(true)
         isViewActive = true
 
-        isStatusBarHidden = false
+        setNeedsStatusBarAppearanceUpdate()
     }
 
     open override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -171,7 +164,7 @@ open class SKPhotoBrowser: UIViewController {
     }
 
     open override var prefersStatusBarHidden: Bool {
-        return isStatusBarHidden
+        return UIDevice.current.orientation != .portrait
     }
 
     // MARK: - Notification
@@ -454,7 +447,7 @@ internal extension SKPhotoBrowser {
             firstY = zoomingScrollView.center.y
             
             hideControls()
-            isStatusBarHidden = true
+            setNeedsStatusBarAppearanceUpdate()
         }
         
         translatedPoint = CGPoint(x: firstX, y: firstY + translatedPoint.y)
@@ -485,7 +478,7 @@ internal extension SKPhotoBrowser {
                 
             } else {
                 // Continue Showing View
-                isStatusBarHidden = false
+                setNeedsStatusBarAppearanceUpdate()
                 
                 let velocityY: CGFloat = CGFloat(0.35) * sender.velocity(in: self.view).y
                 let finalX: CGFloat = firstX
@@ -634,7 +627,7 @@ private extension SKPhotoBrowser {
             hideControlsAfterDelay()
         }
 
-        isStatusBarHidden = hidden
+        setNeedsStatusBarAppearanceUpdate()
     }
     
     func deleteImage() {
