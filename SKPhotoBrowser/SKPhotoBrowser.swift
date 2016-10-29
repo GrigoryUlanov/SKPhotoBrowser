@@ -155,20 +155,15 @@ open class SKPhotoBrowser: UIViewController {
         isViewActive = true
 
         setNeedsStatusBarAppearanceUpdate()
-        UIApplication.shared.setStatusBarHidden(true, with: .fade)
     }
 
     open override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
 
-//    open override var preferredStatusBarUpdateAnimation: UIStatusBarAnimation {
-//        return .fade
-//    }
-//
-//    open override var prefersStatusBarHidden: Bool {
-//        return true
-//    }
+    open override var prefersStatusBarHidden: Bool {
+        return false
+    }
 
     // MARK: - Notification
     open func handleSKPhotoLoadingDidEndNotification(_ notification: Notification) {
@@ -464,7 +459,7 @@ internal extension SKPhotoBrowser {
         view.alpha = CGFloat.maximum(0.6, offset)
 
         if sender.state == .began {
-            UIApplication.shared.setStatusBarHidden(false, with: .none)
+            setNeedsStatusBarAppearanceUpdate()
         }
         
         // gesture end
@@ -500,8 +495,6 @@ internal extension SKPhotoBrowser {
                 view.alpha = 1
                 zoomingScrollView.center = CGPoint(x: finalX, y: finalY)
                 UIView.commitAnimations()
-
-                UIApplication.shared.setStatusBarHidden(true, with: .fade)
             }
         }
     }
