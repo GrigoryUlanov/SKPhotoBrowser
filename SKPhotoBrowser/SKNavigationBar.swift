@@ -13,7 +13,7 @@ class SKNavigationBar: UIView {
     var showFrame: CGRect!
     var hideFrame: CGRect!
 
-    private static let toolBarHeight: CGFloat = 64.0
+    private static let toolBarHeight: CGFloat = 44.0
 
     fileprivate weak var browser: SKPhotoBrowser?
 
@@ -21,6 +21,10 @@ class SKNavigationBar: UIView {
     private var doneButton: UIButton?
 
     var onDoneTap: (() -> Void)?
+
+    private var statusBarHeight: CGFloat {
+        return UIApplication.shared.statusBarFrame.height
+    }
 
     convenience init(browser: SKPhotoBrowser) {
         self.init(frame: CGRect.zero)
@@ -62,15 +66,15 @@ class SKNavigationBar: UIView {
 
     override func layoutSubviews() {
         if UIDevice.current.orientation == .portrait {
-            countLabel?.frame = CGRect(x: 0, y: 20, width: bounds.width, height: bounds.height)
-            doneButton?.frame = CGRect(x: 0, y: 20, width: 85, height: bounds.height)
+            countLabel?.frame = CGRect(x: 0, y: statusBarHeight, width: bounds.width, height: bounds.height)
+            doneButton?.frame = CGRect(x: 0, y: statusBarHeight, width: 85, height: bounds.height)
         } else {
             countLabel?.frame = bounds
             doneButton?.frame = CGRect(x: 0, y: 0, width: 85, height: bounds.height)
         }
     }
 
-    func setNewFrame(rect: CGRect) {
+    private func setNewFrame(rect: CGRect) {
         frame = rect
         showFrame = rect
         hideFrame = CGRect(x: rect.origin.x, y: rect.origin.y - 20, width: rect.size.width, height: rect.size.height)
@@ -78,8 +82,19 @@ class SKNavigationBar: UIView {
     }
 
     func updateFrame(_ parentSize: CGSize) {
-        let newRect = CGRect(x: 0, y: 0, width: parentSize.width, height: SKNavigationBar.toolBarHeight)
-        setNewFrame(rect: newRect)
+        var newRect: CGRect?
+
+        if UIDevice.current.orientation == .portrait {
+            newRect = CGRect(x: 0,
+                             y: 0,
+                             width: parentSize.width,
+                             height: SKNavigationBar.toolBarHeight + statusBarHeight)
+        } else {
+            newRect = CGRect(x: 0, y: 0, width: parentSize.width, height: SKNavigationBar.toolBarHeight)        }
+        
+        if let newRect = newRect {
+            setNewFrame(rect: newRect)
+        }
     }
 
 }

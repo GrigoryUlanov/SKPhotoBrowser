@@ -131,21 +131,22 @@ open class SKPhotoBrowser: UIViewController {
             i = i + 1
         }
     }
-    
-    override open func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
+
+    open override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+
         isPerformingLayout = true
-        
+
         closeButton.updateFrame()
         deleteButton.updateFrame()
         navigationBar.updateFrame(view.bounds.size)
         pagingScrollView.updateFrame(view.bounds, currentPageIndex: currentPageIndex)
-        
+
         toolbar.frame = frameForToolbarAtOrientation()
-        
+
         // where did start
         delegate?.didShowPhotoAtIndex?(currentPageIndex)
-        
+
         isPerformingLayout = false
     }
     
