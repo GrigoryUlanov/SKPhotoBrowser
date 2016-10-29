@@ -171,7 +171,7 @@ open class SKPhotoBrowser: UIViewController {
     }
 
     open override var prefersStatusBarHidden: Bool {
-        return false
+        return isStatusBarHidden
     }
 
     // MARK: - Notification
