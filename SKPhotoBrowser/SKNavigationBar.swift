@@ -21,7 +21,13 @@ class SKNavigationBar: UIView {
     private var doneButton: UIButton?
 
     var onDoneTap: (() -> Void)?
-    var isStatusBarHidden: Bool = false
+    var isStatusBarHidden: Bool = false {
+        didSet {
+            if let bounds = superview?.bounds {
+                updateFrame(bounds.size)
+            }
+        }
+    }
 
     private var statusBarHeight: CGFloat {
         return UIApplication.shared.statusBarFrame.height
@@ -85,13 +91,14 @@ class SKNavigationBar: UIView {
     func updateFrame(_ parentSize: CGSize) {
         var newRect: CGRect?
 
-        if isStatusBarHidden {
+        if !isStatusBarHidden {
             newRect = CGRect(x: 0,
                              y: 0,
                              width: parentSize.width,
                              height: SKNavigationBar.toolBarHeight + statusBarHeight)
         } else {
-            newRect = CGRect(x: 0, y: 0, width: parentSize.width, height: SKNavigationBar.toolBarHeight)        }
+            newRect = CGRect(x: 0, y: 0, width: parentSize.width, height: SKNavigationBar.toolBarHeight)
+        }
         
         if let newRect = newRect {
             setNewFrame(rect: newRect)
