@@ -143,7 +143,7 @@ open class SKPhotoBrowser: UIViewController {
     }
 
     func didChangeOrientation() {
-        isStatusBarHidden = UIDevice.current.orientation != .portrait
+        isStatusBarHidden = UIApplication.shared.statusBarOrientation != .portrait
     }
 
     open override func viewDidLayoutSubviews() {
