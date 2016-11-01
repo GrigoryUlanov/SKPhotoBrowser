@@ -35,8 +35,8 @@ open class SKPhotoBrowser: UIViewController {
     // status bar 
     private var isStatusBarHidden: Bool = false {
         didSet {
-            navigationBar.isStatusBarHidden = isStatusBarHidden
             setNeedsStatusBarAppearanceUpdate()
+            navigationBar.isStatusBarHidden = isStatusBarHidden
         }
     }
     
