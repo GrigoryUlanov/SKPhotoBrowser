@@ -16,6 +16,7 @@ import UIKit
 
 class SKAnimator: NSObject, SKPhotoBrowserAnimatorDelegate {
     var resizableImageView: UIImageView?
+    var parentViewController: UIViewController?
     
     var senderOriginImage: UIImage!
     var senderViewOriginalFrame: CGRect = .zero
@@ -80,11 +81,9 @@ class SKAnimator: NSObject, SKPhotoBrowserAnimatorDelegate {
         
         senderViewForAnimation = sender
         browser.view.isHidden = true
-//        browser.backgroundView.isHidden = false
-//        browser.backgroundView.alpha = 1
 
         senderViewOriginalFrame = calcOriginFrame(sender)
-        
+
         let photo = browser.photoAtIndex(browser.currentPageIndex)
         let contentOffset = scrollView.contentOffset
         let scrollFrame = scrollView.photoImageView.frame
@@ -106,6 +105,8 @@ class SKAnimator: NSObject, SKPhotoBrowserAnimatorDelegate {
             resizableImageView!.layer.masksToBounds = true
             resizableImageView!.addCornerRadiusAnimation(0, to: view.layer.cornerRadius, duration: duration)
         }
+
+        parentViewController?.view.insertSubview(resizableImageView!, at: 1)
         
         dismissAnimation(browser)
     }

@@ -85,10 +85,11 @@ open class SKPhotoBrowser: UIViewController {
         }
     }
     
-    public convenience init(originImage: UIImage, photos: [SKPhotoProtocol], animatedFromView: UIView) {
+    public convenience init(originImage: UIImage, photos: [SKPhotoProtocol], animatedFromView: UIView, fromViewController: UIViewController) {
         self.init(nibName: nil, bundle: nil)
         animator.senderOriginImage = originImage
         animator.senderViewForAnimation = animatedFromView
+        animator.parentViewController = fromViewController
         
         let pictures = photos.flatMap { $0 }
         for photo in pictures {
