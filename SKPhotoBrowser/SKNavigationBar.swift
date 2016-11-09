@@ -29,6 +29,10 @@ class SKNavigationBar: UIView {
         }
     }
 
+    private var isBigStatusBar: Bool {
+        return statusBarHeight > 20 ? true : false
+    }
+
     private var statusBarHeight: CGFloat {
         return UIApplication.shared.statusBarFrame.height
     }
@@ -72,9 +76,17 @@ class SKNavigationBar: UIView {
     }
 
     override func layoutSubviews() {
+        super.layoutSubviews()
+        
         if !isStatusBarHidden {
-            countLabel?.frame = CGRect(x: 0, y: statusBarHeight, width: bounds.width, height: bounds.height - statusBarHeight)
-            doneButton?.frame = CGRect(x: 0, y: statusBarHeight, width: 85, height: bounds.height - statusBarHeight)
+            countLabel?.frame = CGRect(x: 0,
+                                       y: isBigStatusBar ? 0 : statusBarHeight,
+                                       width: bounds.width,
+                                       height: isBigStatusBar ? bounds.height : bounds.height - statusBarHeight)
+            doneButton?.frame = CGRect(x: 0,
+                                       y: isBigStatusBar ? 0 : statusBarHeight,
+                                       width: 85,
+                                       height: isBigStatusBar ? bounds.height : bounds.height - statusBarHeight)
         } else {
             countLabel?.frame = bounds
             doneButton?.frame = CGRect(x: 0, y: 0, width: 85, height: bounds.height)
@@ -93,9 +105,9 @@ class SKNavigationBar: UIView {
 
         if !isStatusBarHidden {
             newRect = CGRect(x: 0,
-                             y: 0,
+                             y: isBigStatusBar ? statusBarHeight/2 : 0,
                              width: parentSize.width,
-                             height: SKNavigationBar.toolBarHeight + statusBarHeight)
+                             height: isBigStatusBar ? SKNavigationBar.toolBarHeight : SKNavigationBar.toolBarHeight + statusBarHeight)
         } else {
             newRect = CGRect(x: 0, y: 0, width: parentSize.width, height: SKNavigationBar.toolBarHeight)
         }

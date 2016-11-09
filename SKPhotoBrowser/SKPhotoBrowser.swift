@@ -109,9 +109,9 @@ open class SKPhotoBrowser: UIViewController {
         applicationWindow = window
         
         modalPresentationCapturesStatusBarAppearance = true
-        modalPresentationStyle = .custom
+        modalPresentationStyle = .overCurrentContext
         modalTransitionStyle = .crossDissolve
-        
+
         NotificationCenter.default.addObserver(self, selector: #selector(self.handleSKPhotoLoadingDidEndNotification(_:)), name: NSNotification.Name(rawValue: SKPHOTO_LOADING_DID_END_NOTIFICATION), object: nil)
     }
     
@@ -129,6 +129,7 @@ open class SKPhotoBrowser: UIViewController {
         didPresentPage?()
 
         NotificationCenter.default.addObserver(self, selector: #selector(didChangeOrientation), name: .UIDeviceOrientationDidChange, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(didChangeStatusBarFrame), name: .UIApplicationDidChangeStatusBarFrame, object: nil)
     }
 
     
@@ -147,9 +148,13 @@ open class SKPhotoBrowser: UIViewController {
         isStatusBarHidden = UIApplication.shared.statusBarOrientation != .portrait
     }
 
-    open override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
+    func didChangeStatusBarFrame() {
+        viewWillLayoutSubviews()
+        view.layoutSubviews()
+        viewDidLayoutSubviews()
+    }
 
+    open override func viewDidLayoutSubviews() {
         setNeedsStatusBarAppearanceUpdate()
 
         isPerformingLayout = true
@@ -165,6 +170,8 @@ open class SKPhotoBrowser: UIViewController {
         delegate?.didShowPhotoAtIndex?(currentPageIndex)
 
         isPerformingLayout = false
+
+        super.viewDidLayoutSubviews()
     }
     
     override open func viewDidAppear(_ animated: Bool) {
