@@ -109,7 +109,7 @@ open class SKPhotoBrowser: UIViewController {
         applicationWindow = window
         
         modalPresentationCapturesStatusBarAppearance = true
-        modalPresentationStyle = .overCurrentContext
+        modalPresentationStyle = .overFullScreen
         modalTransitionStyle = .crossDissolve
 
         NotificationCenter.default.addObserver(self, selector: #selector(self.handleSKPhotoLoadingDidEndNotification(_:)), name: NSNotification.Name(rawValue: SKPHOTO_LOADING_DID_END_NOTIFICATION), object: nil)
