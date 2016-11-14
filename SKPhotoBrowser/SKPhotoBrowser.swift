@@ -126,7 +126,6 @@ open class SKPhotoBrowser: UIViewController {
         configureToolbar()
         
         animator.willPresent(self)
-        didPresentPage?()
 
         NotificationCenter.default.addObserver(self, selector: #selector(didChangeOrientation), name: .UIDeviceOrientationDidChange, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(didChangeStatusBarFrame), name: .UIApplicationDidChangeStatusBarFrame, object: nil)
@@ -179,6 +178,7 @@ open class SKPhotoBrowser: UIViewController {
         isViewActive = true
 
         setNeedsStatusBarAppearanceUpdate()
+        didPresentPage?()
     }
 
     open override var preferredStatusBarStyle: UIStatusBarStyle {
