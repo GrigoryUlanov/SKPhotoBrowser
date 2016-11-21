@@ -114,8 +114,8 @@ open class SKZoomingScrollView: UIScrollView {
         let boundsSize = bounds.size
         let imageSize = photoImageView.frame.size
         
-        let xScale = boundsSize.width / imageSize.width
-        let yScale = boundsSize.height / imageSize.height
+        let xScale = CGFloat(Int(boundsSize.width / imageSize.width * 100)) / 100
+        let yScale = CGFloat(Int(boundsSize.height / imageSize.height * 100)) / 100
         let minScale: CGFloat = min(xScale, yScale)
         var maxScale: CGFloat = 1.0
         
