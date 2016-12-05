@@ -95,7 +95,6 @@ class SKAnimator: NSObject, SKPhotoBrowserAnimatorDelegate {
             width: scrollFrame.width,
             height: scrollFrame.height)
         
-//        resizableImageView.image = scrollView.photo?.underlyingImage?.rotateImageByOrientation()
         resizableImageView!.image = image.rotateImageByOrientation()
         resizableImageView!.frame = frame
         resizableImageView!.alpha = 1.0
