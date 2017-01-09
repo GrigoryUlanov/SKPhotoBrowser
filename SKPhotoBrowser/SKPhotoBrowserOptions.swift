@@ -28,4 +28,6 @@ public struct SKPhotoBrowserOptions {
     public static var bounceAnimation = false
     public static var enableZoomBlackArea = true
     public static var enableSingleTapDismiss = false
+
+    public static var imageLoadingCustomHeaders: [String : String]?
 }

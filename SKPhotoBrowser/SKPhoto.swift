@@ -79,7 +79,13 @@ open class SKPhoto: NSObject, SKPhotoProtocol {
             let session = URLSession(configuration: URLSessionConfiguration.default)
             if let nsURL = URL(string: photoURL) {
                 var task: URLSessionDataTask!
-                task = session.dataTask(with: nsURL, completionHandler: { [weak self] (data, response, error) in
+
+                var loadingRequest = URLRequest(url: nsURL)
+                if let customHeaders = SKPhotoBrowserOptions.imageLoadingCustomHeaders {
+                    loadingRequest.allHTTPHeaderFields = customHeaders
+                }
+
+                task = session.dataTask(with: loadingRequest, completionHandler: { [weak self] (data, response, error) in
                     if let _self = self {
                         
                         if error != nil {
